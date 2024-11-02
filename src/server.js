@@ -1,8 +1,12 @@
 const express = require("express");
+const knex = require("./knex");
+const bcrypt = require("bcrypt");
 
 const app = express();
 
-//Need get request
+//bcrypt
+const saltRounds = 10;
+
 app.get("/", (req, res) => {
   res.send("Hello");
 });
