@@ -5,7 +5,7 @@
 exports.up = function (knex) {
   return knex.schema.createTable("users_table", function (table) {
     table.increments("id").primary();
-    table.string("user_name").notNullable.unique();
+    table.string("user_name").notNullable().unique();
     table.varchar("password", 10).notNullable();
   });
 };
