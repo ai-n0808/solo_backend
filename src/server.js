@@ -2,15 +2,54 @@ const express = require("express");
 const knex = require("./knex");
 const bcrypt = require("bcrypt");
 
+const PORT = process.env.PORT || 8080;
 const app = express();
 
 //bcrypt
 const saltRounds = 10;
 
-app.get("/", (req, res) => {
-  res.send("Hello");
+app.post("/signup", async (req, res) => {
+  try {
+    const user_name = req.body.user_name;
+    const plainPassword = req.body.password;
+
+    //Hashing password
+    const hashedPassword = await bcrypt.hash(plainPassword, saltRounds);
+    const addedUserId = await knex("users_table").insert(
+      {
+        user_name: user_name,
+        password: hashedPassword,
+      },
+      ["id"]
+    );
+    res.status(201).json({ addedUserId });
+  } catch (error) {
+    res.status(500).json({ error: "Registration failed" });
+  }
 });
 
-app.listen(8080, () => {
+app.post("/login", async (req, res) => {
+  const user_name = req.body.user_name;
+  const plainPassword = req.body.password;
+
+  try {
+    let userInfo = await knex("users_table")
+      .where({ user_name })
+      .select("id", "user_name", "password");
+
+    if (userInfo.length === 0) {
+      return res.status(400).json({ error: "Incorrect username or password" });
+    }
+
+    const isMatch = await bcrypt.compare(plainPassword, userInfo[0].password);
+
+    if (!isMatch)
+      return res.status(400).json({ error: "Incorrect username or password" });
+  } catch (error) {
+    res.status(500).json({ error: "Login failed" });
+  }
+});
+
+app.listen(PORT, () => {
   console.log(`Server is running`);
 });
