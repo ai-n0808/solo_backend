@@ -65,7 +65,6 @@ app.get("/games", async (req, res) => {
 
 // Mark a Game as Favorite
 app.post("/favorites", async (req, res) => {
-  console.log(req.body);
   const { user_id, game_id } = req.body;
 
   try {
@@ -83,20 +82,14 @@ app.post("/favorites", async (req, res) => {
 });
 
 //Get all favorite games for user
-app.get("/favorites", async (req, res) => {
-  console.log(req.query);
-  const { user_id } = req.query;
+app.get("/favorites/:user_id", async (req, res) => {
+  const user_id = parseInt(req.params.user_id, 10);
 
   try {
     const favoriteGames = await knex("favorites_table")
-      .join("games_table", "favorites_table.game_id", "=", "games_table.id")
-      .where("favorites_table.user_id", user_id)
-      .select(
-        "games_table.id",
-        "games_table.game_title",
-        "favorites_table.id as favorite_id"
-      );
-
+      .rightJoin("games_table", "favorites_table.game_id", "games_table.id")
+      .select("games_table.title")
+      .where("favorites_table.user_id", user_id);
     res.status(200).json(favoriteGames);
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch favorite games" });
@@ -105,14 +98,12 @@ app.get("/favorites", async (req, res) => {
 
 //Remove a Game from Favorites
 app.delete("/favorites/:id", async (req, res) => {
-  const favoriteID = req.params.id;
-  console.log(favoriteID);
+  const favoriteID = parseInt(req.params.id, 10);
 
   try {
-    const deletedRow = await knex("favorite_table")
+    const deletedRow = await knex("favorites_table")
       .where("id", favoriteID)
       .del();
-
     if (deletedRow) {
       res.status(200).json({ message: "Game removed successfully" });
     } else {
@@ -120,6 +111,66 @@ app.delete("/favorites/:id", async (req, res) => {
     }
   } catch (error) {
     res.status(500).json({ error: "Failed to remove game from favorites" });
+  }
+});
+
+//Add a Review and Rating for a Game
+app.post("/reviews", async (req, res) => {
+  const { user_id, game_id, rating, review, created_at } = req.body;
+  console.log({ user_id, game_id, rating, review, created_at });
+
+  try {
+    await knex("reviews_table").insert({
+      user_id: parseInt(user_id, 10),
+      game_id: parseInt(game_id, 10),
+      rating: parseInt(rating, 10),
+      review: review,
+      created_at: created_at,
+    });
+
+    res.status(201).json({ message: "Review added successfully" });
+  } catch (error) {
+    console.error("Error Name:", error.name);
+    console.error("Error Message:", error.message);
+    console.error("Error Stack:", error.stack);
+    res.status(500).json({ error: error });
+  }
+});
+
+//Fetch All Reviews for a Particular Game
+app.get("/reviews/:game_id", async (req, res) => {
+  const game_id = req.params.game_id;
+
+  try {
+    const reviews = await knex("reviews_table")
+      .where({ game_id })
+      .select("id", "user_id", "rating", "review");
+
+    const averageRating = await knex("reviews_table")
+      .where({ game_id })
+      .avg("rating as avg_rating")
+      .first();
+
+    res.status(200).json({ reviews, averageRating: averageRating.avg_rating });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch reviews" });
+  }
+});
+
+//Delete a Review
+app.delete("/reviews/:id", async (req, res) => {
+  const reviewId = parseInt(req.params.id, 10);
+
+  try {
+    const deletedRow = await knex("reviews_table").where("id", reviewId).del();
+
+    if (deletedRow) {
+      res.status(200).json({ message: "Review deleted successfully" });
+    } else {
+      res.status(404).json({ error: "Review not found" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error });
   }
 });
 
