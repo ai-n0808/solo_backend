@@ -139,12 +139,12 @@ app.post("/reviews", async (req, res) => {
 
 //Fetch All Reviews for a Particular Game
 app.get("/reviews/:game_id", async (req, res) => {
-  const game_id = req.params.game_id;
+  const game_id = parseInt(req.params.game_id, 10);
 
   try {
     const reviews = await knex("reviews_table")
       .where({ game_id })
-      .select("id", "user_id", "rating", "review");
+      .select("user_id", "rating", "review");
 
     const averageRating = await knex("reviews_table")
       .where({ game_id })
