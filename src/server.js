@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 
 const PORT = process.env.PORT || 8080;
 const app = express();
+app.use(express.json());
 
 //bcrypt
 const saltRounds = 10;
@@ -45,8 +46,19 @@ app.post("/login", async (req, res) => {
 
     if (!isMatch)
       return res.status(400).json({ error: "Incorrect username or password" });
+    const { id } = userInfo[0];
+    return res.json({ id, user_name });
   } catch (error) {
     res.status(500).json({ error: "Login failed" });
+  }
+});
+
+app.get("/games", async (req, res) => {
+  try {
+    const allOfGames = await knex.select("*").from("games_table");
+    res.status(200).json(allOfGames);
+  } catch (error) {
+    res.status(500).json({ error: "Failed fetch games" });
   }
 });
 
