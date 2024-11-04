@@ -53,12 +53,73 @@ app.post("/login", async (req, res) => {
   }
 });
 
+//Show all of the games for user
 app.get("/games", async (req, res) => {
   try {
     const allOfGames = await knex.select("*").from("games_table");
     res.status(200).json(allOfGames);
   } catch (error) {
     res.status(500).json({ error: "Failed fetch games" });
+  }
+});
+
+// Mark a Game as Favorite
+app.post("/favorites", async (req, res) => {
+  console.log(req.body);
+  const { user_id, game_id } = req.body;
+
+  try {
+    const [favoriteId] = await knex("favorites_table").insert(
+      {
+        user_id,
+        game_id,
+      },
+      ["id"]
+    );
+    res.status(201).json({ message: "Added game to favorites", favoriteId });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to add game to favorites" });
+  }
+});
+
+//Get all favorite games for user
+app.get("/favorites", async (req, res) => {
+  console.log(req.query);
+  const { user_id } = req.query;
+
+  try {
+    const favoriteGames = await knex("favorites_table")
+      .join("games_table", "favorites_table.game_id", "=", "games_table.id")
+      .where("favorites_table.user_id", user_id)
+      .select(
+        "games_table.id",
+        "games_table.game_title",
+        "favorites_table.id as favorite_id"
+      );
+
+    res.status(200).json(favoriteGames);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch favorite games" });
+  }
+});
+
+//Remove a Game from Favorites
+app.delete("/favorites/:id", async (req, res) => {
+  const favoriteID = req.params.id;
+  console.log(favoriteID);
+
+  try {
+    const deletedRow = await knex("favorite_table")
+      .where("id", favoriteID)
+      .del();
+
+    if (deletedRow) {
+      res.status(200).json({ message: "Game removed successfully" });
+    } else {
+      res.status(404).json({ message: "Favorite not found" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Failed to remove game from favorites" });
   }
 });
 
