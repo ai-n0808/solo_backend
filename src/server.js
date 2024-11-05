@@ -1,6 +1,7 @@
 const express = require("express");
 const knex = require("./knex");
 const bcrypt = require("bcrypt");
+const cors = require("cors");
 
 const PORT = process.env.PORT || 8080;
 const app = express();
@@ -8,6 +9,8 @@ app.use(express.json());
 
 //bcrypt
 const saltRounds = 10;
+
+app.use(cors());
 
 app.post("/signup", async (req, res) => {
   try {
@@ -25,6 +28,7 @@ app.post("/signup", async (req, res) => {
     );
     res.status(201).json({ addedUserId });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: "Registration failed" });
   }
 });
