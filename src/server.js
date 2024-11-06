@@ -92,7 +92,7 @@ app.get("/favorites/:user_id", async (req, res) => {
   try {
     const favoriteGames = await knex("favorites_table")
       .rightJoin("games_table", "favorites_table.game_id", "games_table.id")
-      .select("games_table.title")
+      .select("*")
       .where("favorites_table.user_id", user_id);
     res.status(200).json(favoriteGames);
   } catch (error) {
