@@ -6,6 +6,7 @@ exports.seed = async function (knex) {
   await knex("games_table").del();
   await knex("games_table").insert([
     {
+      id: 1,
       title: "Red, Blue, Green",
       platform: "Game Boy",
       release_date: 19960227,
@@ -13,6 +14,7 @@ exports.seed = async function (knex) {
       image: "https://i.ibb.co/7S1Xd9d/Red-Green-Blue.png",
     },
     {
+      id: 2,
       title: "Yellow",
       platform: "Game Boy",
       release_date: 19980912,
@@ -20,6 +22,7 @@ exports.seed = async function (knex) {
       image: "https://i.ibb.co/jRN8NwK/pokemon-yelow.jpg",
     },
     {
+      id: 3,
       title: "Gold, Silver",
       platform: "Game Boy Color",
       release_date: 19991121,
@@ -27,6 +30,7 @@ exports.seed = async function (knex) {
       image: "https://i.ibb.co/LSv13YY/Gold-silver.jpg",
     },
     {
+      id: 4,
       title: "Crystal",
       platform: "Game Boy Color",
       release_date: 20001214,
@@ -34,6 +38,7 @@ exports.seed = async function (knex) {
       image: "https://i.ibb.co/sW1bPJk/Crystal.webp",
     },
     {
+      id: 5,
       title: "Ruby, Sapphire",
       platform: "Game Boy Advance",
       release_date: 20021121,
@@ -41,6 +46,7 @@ exports.seed = async function (knex) {
       image: "https://i.ibb.co/HqRVg7j/Ruby-Sapphire.jpg",
     },
     {
+      id: 6,
       title: "FireRed, LeafGreen",
       platform: "Game Boy Advance",
       release_date: 20040129,
@@ -48,6 +54,7 @@ exports.seed = async function (knex) {
       image: "https://i.ibb.co/vJPFsCN/firered-leafgreen.webp",
     },
     {
+      id: 7,
       title: "Emerald",
       platform: "Game Boy Advance",
       release_date: 20040916,
@@ -55,6 +62,7 @@ exports.seed = async function (knex) {
       image: "https://i.ibb.co/gDFP7P4/emerald.jpg",
     },
     {
+      id: 8,
       title: "Diamond, Pearl",
       platform: "Nintendo DS",
       release_date: 20060928,
@@ -62,6 +70,7 @@ exports.seed = async function (knex) {
       image: "https://i.ibb.co/ZVXcLww/Diamond-pearl.jpg",
     },
     {
+      id: 9,
       title: "Platinum",
       platform: "Nintendo DS",
       release_date: 20080913,
@@ -69,6 +78,7 @@ exports.seed = async function (knex) {
       image: "https://i.ibb.co/J21tC8n/platina.jpg",
     },
     {
+      id: 10,
       title: "HeartGold, SoulSilver",
       platform: "Nintendo DS",
       release_date: 20090912,
@@ -76,6 +86,7 @@ exports.seed = async function (knex) {
       image: "https://i.ibb.co/093Pwjq/Heart-Gold-Silver.jpg",
     },
     {
+      id: 11,
       title: "Black, White",
       platform: "Nintendo DS",
       release_date: 20100918,
@@ -83,6 +94,7 @@ exports.seed = async function (knex) {
       image: "https://i.ibb.co/nmSjcZw/Black-white.jpg",
     },
     {
+      id: 12,
       title: "Black2, White2",
       platform: "Nintendo DS",
       release_date: 20120623,
@@ -90,6 +102,7 @@ exports.seed = async function (knex) {
       image: "https://i.ibb.co/VBNmdyf/black2-white2.jpg",
     },
     {
+      id: 13,
       title: "X, Y",
       platform: "Nintendo 3DS",
       release_date: 20131012,
@@ -97,6 +110,7 @@ exports.seed = async function (knex) {
       image: "https://i.ibb.co/jVXxR7t/X-Y.jpg",
     },
     {
+      id: 14,
       title: "OmegaRuby, AlphaSapphire",
       platform: "Nintendo 3DS",
       release_date: 20141121,
@@ -104,6 +118,7 @@ exports.seed = async function (knex) {
       image: "https://i.ibb.co/HDhGv31/omgruby-alp-sapphire.jpg",
     },
     {
+      id: 15,
       title: "Sun, Moon",
       platform: "Nintendo 3DS",
       release_date: 20161118,
@@ -111,6 +126,7 @@ exports.seed = async function (knex) {
       image: "https://i.ibb.co/MGHNTwV/Sun-moon.jpg",
     },
     {
+      id: 16,
       title: "UltraSun, Ultra Moon",
       platform: "Nintendo 3DS",
       release_date: 20161118,
@@ -118,6 +134,7 @@ exports.seed = async function (knex) {
       image: "https://i.ibb.co/RYrGDhC/US-UM.jpg",
     },
     {
+      id: 17,
       title: "Let's go Pikachu!, Let's go Eevee!",
       platform: "Nintendo Switch",
       release_date: 20161118,
@@ -125,6 +142,7 @@ exports.seed = async function (knex) {
       image: "https://i.ibb.co/DVxL8jN/Let-s-go.jpg",
     },
     {
+      id: 18,
       title: "Sword, Shield",
       platform: "Nintendo Switch",
       release_date: 20191115,
@@ -132,6 +150,7 @@ exports.seed = async function (knex) {
       image: "https://i.ibb.co/m6b5Qy0/Sword-shield.jpg",
     },
     {
+      id: 19,
       title: "Brilliant Diamond, Shining Pearl",
       platform: "Nintendo Switch",
       release_date: 20211119,
@@ -139,6 +158,7 @@ exports.seed = async function (knex) {
       image: "https://i.ibb.co/pzfzwBR/diamond2-pearl2.jpg",
     },
     {
+      id: 20,
       title: "Legends: Arceus",
       platform: "Nintendo Switch",
       release_date: 20220128,
@@ -146,6 +166,7 @@ exports.seed = async function (knex) {
       image: "https://i.ibb.co/PcR2ggg/image.jpg",
     },
     {
+      id: 21,
       title: "Scarlet, Violet",
       platform: "Nintendo Switch",
       release_date: 20221118,
