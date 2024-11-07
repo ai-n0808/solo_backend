@@ -111,7 +111,7 @@ app.delete("/favorites/:id", async (req, res) => {
     if (deletedRow) {
       res.status(200).json({ message: "Game removed successfully" });
     } else {
-      // res.status(404).json({ message: "Favorite not found" });
+      res.status(404).json({ message: "Favorite not found" });
     }
   } catch (error) {
     res.status(500).json({ error: "Failed to remove game from favorites" });

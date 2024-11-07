@@ -3,7 +3,7 @@
 This is the backend repository for Pokemon Game Review Platform.
 
 - [Pokemon Game Review Platform](#pokemon-game-review-platform)
-  - [feature](#feature)
+  - [Feature](#feature)
   - [Description](#description)
   - [Technology](#technology)
   - [Installation](#installation)
@@ -16,7 +16,7 @@ This is the backend repository for Pokemon Game Review Platform.
     - [Set Up the Database](#set-up-the-database)
   - [Endpoints](#endpoints)
 
-## feature
+## Feature
 
 - **Game List**: Users can add games to their personal library as favorite list.
 - **Game Reviews**: Users can add reviews.
