@@ -90,8 +90,8 @@ app.get("/favorites/:user_id", async (req, res) => {
   const user_id = parseInt(req.params.user_id, 10);
 
   try {
-    const favoriteGames = await knex("favorites_table")
-      .rightJoin("games_table", "favorites_table.game_id", "games_table.id")
+    const favoriteGames = await knex("games_table")
+      .leftJoin("favorites_table", "favorites_table.game_id", "games_table.id")
       .select("*")
       .where("favorites_table.user_id", user_id);
     res.status(200).json(favoriteGames);
@@ -103,15 +103,15 @@ app.get("/favorites/:user_id", async (req, res) => {
 //Remove a Game from Favorites
 app.delete("/favorites/:id", async (req, res) => {
   const favoriteID = parseInt(req.params.id, 10);
-
+  console.log(favoriteID);
   try {
     const deletedRow = await knex("favorites_table")
-      .where("id", favoriteID)
+      .where({ id: favoriteID })
       .del();
     if (deletedRow) {
       res.status(200).json({ message: "Game removed successfully" });
     } else {
-      res.status(404).json({ message: "Favorite not found" });
+      // res.status(404).json({ message: "Favorite not found" });
     }
   } catch (error) {
     res.status(500).json({ error: "Failed to remove game from favorites" });
