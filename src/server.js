@@ -150,12 +150,7 @@ app.get("/reviews/:game_id", async (req, res) => {
       .where({ game_id })
       .select("user_id", "rating", "review");
 
-    const averageRating = await knex("reviews_table")
-      .where({ game_id })
-      .avg("rating as avg_rating")
-      .first();
-
-    res.status(200).json({ reviews, averageRating: averageRating.avg_rating });
+    res.status(200).json({ reviews });
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch reviews" });
   }
