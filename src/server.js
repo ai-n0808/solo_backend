@@ -120,16 +120,13 @@ app.delete("/favorites/:id", async (req, res) => {
 
 //Add a Review and Rating for a Game
 app.post("/reviews", async (req, res) => {
-  const { user_id, game_id, rating, review, created_at } = req.body;
-  console.log({ user_id, game_id, rating, review, created_at });
+  const { user_id, game_id, review } = req.body;
 
   try {
     await knex("reviews_table").insert({
       user_id: parseInt(user_id, 10),
       game_id: parseInt(game_id, 10),
-      rating: parseInt(rating, 10),
       review: review,
-      created_at: created_at,
     });
 
     res.status(201).json({ message: "Review added successfully" });
